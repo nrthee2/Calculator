@@ -11,3 +11,34 @@ let divide = (a, b) => {
     } 
     return a/b;
 };
+
+//operate, calling an operator and two numbers, returning one of the basic operations
+let operate = (operator, a, b) => {
+    if (operator === add){
+        return add(a, b);
+    } else if (operator === subtract){
+        return subtract(a, b);
+    } else if (operator === multiply){
+        return multiply(a, b);
+    } else if (operator === divide){
+        return divide(a, b);
+    }
+};
+
+//display function
+const btnnumber = document.querySelectorAll("button.number"); //selects all buttons with the class number
+let display = document.querySelector(".display");
+let displayPrevValue = 0;
+let displayNextValue = 0;
+
+btnnumber.forEach((button) => {                               //loops through the nodelist and adds eventlisteners for each button
+    button.addEventListener("click", () => {
+        display.textContent = display.textContent + button.textContent;
+        displayPrevValue = parseInt(display.textContent, 10);
+    });
+});
+
+const test = document.querySelector("#equals");
+test.addEventListener("click", () => {
+    alert(displayPrevValue);
+});

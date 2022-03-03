@@ -1,0 +1,31 @@
+button {
+    width: 70px;
+    height: 70px;
+    background-color: black;
+    color: orange;
+   }
+   
+   .display {
+     border: 1px solid black;
+     background-color: #d3d3d3;
+     width: 280px;
+     height: 40px;
+     margin: 0 auto;
+     text-align: right;
+   }
+   
+   .twotime {
+     width: 140px;
+   }
+   
+   .buttons {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+   }
+   
+   .toprow, .firstrow, .secondrow, .thirdrow, .fourthrow {
+     display: flex;
+     gap: 0px;
+   }
