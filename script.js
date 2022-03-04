@@ -25,20 +25,49 @@ let operate = (operator, a, b) => {
     }
 };
 
+
+//------------------------------------------------------------------------------------------------------------
+
+
 //display function
-const btnnumber = document.querySelectorAll("button.number"); //selects all buttons with the class number
+let btnnumber = document.querySelectorAll("button.number"); //selects all buttons with the class number
 let display = document.querySelector(".display");
+let btnoperator = document.querySelectorAll("button.operator");
 let displayPrevValue = 0;
 let displayNextValue = 0;
+let operator;
 
-btnnumber.forEach((button) => {                               //loops through the nodelist and adds eventlisteners for each button
+
+//first value
+btnnumber.forEach((button) => {
+      button.addEventListener("click", () => {
+           display.textContent = display.textContent + button.textContent;      
+      });
+ });
+
+//operator
+btnoperator.forEach((button) => {
     button.addEventListener("click", () => {
-        display.textContent = display.textContent + button.textContent;
         displayPrevValue = parseInt(display.textContent, 10);
+        operator = button.textContent;
+        display.textContent = "";
+        alert(displayPrevValue);
     });
 });
 
-const test = document.querySelector("#equals");
-test.addEventListener("click", () => {
-    alert(displayPrevValue);
-});
+//second value
+
+
+//equals
+let equals = document.querySelector("#equals");
+equals.addEventListener("click", () => {
+   /*  if (operator === "/") {
+        alert("/");
+    } else if (operator === "x") {
+        alert("x");
+    } else if (operator === "+") {
+        alert("+");
+    } */
+    displayNextValue = parseInt(display.textContent, 10);
+    alert(displayNextValue + displayPrevValue);
+}); 
