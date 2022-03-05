@@ -27,47 +27,139 @@ let operate = (operator, a, b) => {
 
 
 //------------------------------------------------------------------------------------------------------------
+const display = document.querySelector(".display");
+let operator;
+let prevValue = 0;
+let currValue = 0;
+let nextValue = 0;
+let count = 0;
+
+//populate the display
+const btnnumber = document.querySelectorAll("button.number");
+btnnumber.forEach((button) => {
+    button.addEventListener("click", () => {
+        display.textContent = display.textContent + button.textContent;
+    });
+});
+
+//operator click
+const btnoperator = document.querySelectorAll("button.operator");
+btnoperator.forEach((button) => {
+    button.addEventListener("click", () => {
+
+        if (count === 0) {
+            prevValue = Number(display.textContent);
+                        if (button.textContent === "+") {
+                operator = add;
+            } else if (button.textContent === "-") {
+                operator = subtract;
+            } else if (button.textContent === "x") {
+                operator = multiply;
+            } else if (button.textContent === "÷") {
+                operator = divide;
+            };
+        } else {
+            nextValue = Number(display.textContent);
+        }
+        ++count;
+
+        display.textContent = "";
+        console.log("prevvalue: " + prevValue);
+        console.log("nextvalue: " + nextValue);
+        console.log("currValue: " + currValue);
+        console.log(operator);
+    });
+});
 
 
-//display function
-let btnnumber = document.querySelectorAll("button.number"); //selects all buttons with the class number
+//declarations
+/* let btnnumber = document.querySelectorAll("button.number");
 let display = document.querySelector(".display");
+let displaySecondary = document.querySelector(".displaysecondary");
 let btnoperator = document.querySelectorAll("button.operator");
-let displayPrevValue = 0;
-let displayNextValue = 0;
+let displayPrevValue = 0; //first number
+let displayNextValue = 0; //second number (after operator)
+let displayCurrValue = 0; //current number (after equals)
 let operator;
 
+ //counter on operator clicks
+let count = 0;
 
-//first value
+document.getElementById("add").onclick = function() {
+    ++count;
+};
+document.getElementById("subtract").onclick = function() {
+    ++count;
+};
+document.getElementById("multiply").onclick = function() {
+    ++count;
+};
+document.getElementById("divide").onclick = function() {
+    ++count;
+};
+
+//first number
 btnnumber.forEach((button) => {
       button.addEventListener("click", () => {
            display.textContent = display.textContent + button.textContent;      
       });
  });
 
-//operator
+//operator button
 btnoperator.forEach((button) => {
     button.addEventListener("click", () => {
-        displayPrevValue = parseInt(display.textContent, 10);
+        displayPrevValue = Number(display.textContent);
         operator = button.textContent;
+        displaySecondary.textContent = display.textContent + " " + operator + " ";
         display.textContent = "";
-        alert(displayPrevValue);
     });
 });
 
-//second value
+//clear button
+let clear = document.querySelector("#clear");
+clear.addEventListener("click", () => {
+    display.textContent = "";
+    displaySecondary.textContent = "";
+    displayPrevValue = 0;
+    displayNextValue = 0;
+    displayCurrValue = 0;
+});
+
+//delete button
+let deletebtn = document.querySelector("#delete");
+deletebtn.addEventListener("click", () => {
+    display.textContent = display.textContent.slice(0, -1);
+});
+
+//decimal button
+let decimal = document.querySelector("#decimal");
+decimal.addEventListener("click", () => {
+    display.textContent = display.textContent + ".";
+});
 
 
-//equals
+//equals button
 let equals = document.querySelector("#equals");
 equals.addEventListener("click", () => {
-   /*  if (operator === "/") {
-        alert("/");
+    displayNextValue = Number(display.textContent);
+    
+    if (operator === "÷") {
+        displayCurrValue = operate(divide, displayPrevValue, displayNextValue);
+        displaySecondary.textContent = displaySecondary.textContent + displayNextValue + " = ";
+        display.textContent = displayCurrValue;
     } else if (operator === "x") {
-        alert("x");
+        displayCurrValue = operate(multiply, displayPrevValue, displayNextValue);
+        displaySecondary.textContent = displaySecondary.textContent + displayNextValue + " = ";
+        display.textContent = displayCurrValue;
     } else if (operator === "+") {
-        alert("+");
-    } */
-    displayNextValue = parseInt(display.textContent, 10);
-    alert(displayNextValue + displayPrevValue);
+        displayCurrValue = operate(add, displayPrevValue, displayNextValue);
+        displaySecondary.textContent = displaySecondary.textContent + displayNextValue + " = ";
+        display.textContent = displayCurrValue;
+    } else if (operator === "-") {
+        displayCurrValue = operate(subtract, displayPrevValue, displayNextValue);
+        displaySecondary.textContent = displaySecondary.textContent + displayNextValue + " = ";
+        display.textContent = displayCurrValue;
+    }
 }); 
+
+ */
