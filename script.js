@@ -28,17 +28,22 @@ let operate = (operator, a, b) => {
 
 //------------------------------------------------------------------------------------------------------------
 const display = document.querySelector(".display");
+const displaySecondary = document.querySelector(".displaysecondary");
+display.textContent = 0;
 let operator;
 let prevValue = 0;
 let currValue = 0;
 let nextValue = 0;
 let count = 0;
+let countdecimal = 0;
+let countdisplay = 0;
+let displayHold;
 
 //populate the display
 const btnnumber = document.querySelectorAll("button.number");
 btnnumber.forEach((button) => {
     button.addEventListener("click", () => {
-        display.textContent = display.textContent + button.textContent;
+            display.textContent = Number(display.textContent + button.textContent);
     });
 });
 
@@ -46,10 +51,10 @@ btnnumber.forEach((button) => {
 const btnoperator = document.querySelectorAll("button.operator");
 btnoperator.forEach((button) => {
     button.addEventListener("click", () => {
-
         if (count === 0) {
             prevValue = Number(display.textContent);
-                        if (button.textContent === "+") {
+                displayHold = (displaySecondary.textContent = display.textContent + " " + button.textContent + " ");
+            if (button.textContent === "+") {
                 operator = add;
             } else if (button.textContent === "-") {
                 operator = subtract;
@@ -57,109 +62,72 @@ btnoperator.forEach((button) => {
                 operator = multiply;
             } else if (button.textContent === "÷") {
                 operator = divide;
-            };
-        } else {
+            } 
+        } else if (count >= 1) {
             nextValue = Number(display.textContent);
+            currValue = operate(operator, prevValue, nextValue);
+            prevValue = currValue;
+            displaySecondary.textContent = displayHold + display.textContent + " " + button.textContent + " ";
+            if (button.textContent === "+") {
+                operator = add;
+            } else if (button.textContent === "-") {
+                operator = subtract;
+            } else if (button.textContent === "x") {
+                operator = multiply;
+            } else if (button.textContent === "÷") {
+                operator = divide;
+            }
+        }
+        displayHold = displaySecondary.textContent;
+        if (count === 0) {
+            display.textContent = prevValue;
+        } else {
+            display.textContent = currValue;
         }
         ++count;
-
-        display.textContent = "";
-        console.log("prevvalue: " + prevValue);
-        console.log("nextvalue: " + nextValue);
-        console.log("currValue: " + currValue);
-        console.log(operator);
     });
 });
 
-
-//declarations
-/* let btnnumber = document.querySelectorAll("button.number");
-let display = document.querySelector(".display");
-let displaySecondary = document.querySelector(".displaysecondary");
-let btnoperator = document.querySelectorAll("button.operator");
-let displayPrevValue = 0; //first number
-let displayNextValue = 0; //second number (after operator)
-let displayCurrValue = 0; //current number (after equals)
-let operator;
-
- //counter on operator clicks
-let count = 0;
-
-document.getElementById("add").onclick = function() {
-    ++count;
-};
-document.getElementById("subtract").onclick = function() {
-    ++count;
-};
-document.getElementById("multiply").onclick = function() {
-    ++count;
-};
-document.getElementById("divide").onclick = function() {
-    ++count;
-};
-
-//first number
-btnnumber.forEach((button) => {
-      button.addEventListener("click", () => {
-           display.textContent = display.textContent + button.textContent;      
-      });
- });
-
-//operator button
-btnoperator.forEach((button) => {
-    button.addEventListener("click", () => {
-        displayPrevValue = Number(display.textContent);
-        operator = button.textContent;
-        displaySecondary.textContent = display.textContent + " " + operator + " ";
-        display.textContent = "";
-    });
-});
-
-//clear button
-let clear = document.querySelector("#clear");
-clear.addEventListener("click", () => {
-    display.textContent = "";
+//clear click
+const btnclear = document.querySelector("#clear");
+btnclear.addEventListener("click", () => {
+    count = 0;
+    countdecimal = 0;
+    prevValue = 0;
+    nextValue = 0;
+    currValue = 0;
+    operator = "";
+    displayHold = "";
+    display.textContent = 0;
     displaySecondary.textContent = "";
-    displayPrevValue = 0;
-    displayNextValue = 0;
-    displayCurrValue = 0;
 });
 
-//delete button
-let deletebtn = document.querySelector("#delete");
-deletebtn.addEventListener("click", () => {
+//delete click
+const btndelete = document.querySelector("#delete");
+btndelete.addEventListener("click", () => {
     display.textContent = display.textContent.slice(0, -1);
 });
 
-//decimal button
-let decimal = document.querySelector("#decimal");
-decimal.addEventListener("click", () => {
-    display.textContent = display.textContent + ".";
+//decimal click
+const btndecimal = document.querySelector("#decimal");
+btndecimal.addEventListener("click", () => {
+    if (countdecimal === 0) {
+        display.textContent = display.textContent + ".";
+    }
+    ++countdecimal;
 });
 
+//equals click
+const btnequals = document.querySelector("#equals");
+btnequals.addEventListener("click", () => {
+    nextValue = Number(display.textContent);
+    currValue = operate(operator, prevValue, nextValue);
+    prevValue = currValue;
+    display.textContent = currValue;
+    displaySecondary.textContent = displayHold + nextValue + " =";
+    console.log("prev: " + prevValue + " next: " + nextValue + " finally curr: " + currValue);
+});
 
-//equals button
-let equals = document.querySelector("#equals");
-equals.addEventListener("click", () => {
-    displayNextValue = Number(display.textContent);
-    
-    if (operator === "÷") {
-        displayCurrValue = operate(divide, displayPrevValue, displayNextValue);
-        displaySecondary.textContent = displaySecondary.textContent + displayNextValue + " = ";
-        display.textContent = displayCurrValue;
-    } else if (operator === "x") {
-        displayCurrValue = operate(multiply, displayPrevValue, displayNextValue);
-        displaySecondary.textContent = displaySecondary.textContent + displayNextValue + " = ";
-        display.textContent = displayCurrValue;
-    } else if (operator === "+") {
-        displayCurrValue = operate(add, displayPrevValue, displayNextValue);
-        displaySecondary.textContent = displaySecondary.textContent + displayNextValue + " = ";
-        display.textContent = displayCurrValue;
-    } else if (operator === "-") {
-        displayCurrValue = operate(subtract, displayPrevValue, displayNextValue);
-        displaySecondary.textContent = displaySecondary.textContent + displayNextValue + " = ";
-        display.textContent = displayCurrValue;
-    }
-}); 
-
- */
+/*Things to do:
+    Fix the display: the calculated expression should be in the display, 
+    and when you start typing again, it should replace it, not concatenate to the existing value*/
