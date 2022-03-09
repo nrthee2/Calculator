@@ -1,4 +1,16 @@
-button {
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    background-color: rgb(86, 79, 108);
+  }
+
+  .container {
+    margin-top: auto;
+  }
+
+  button {
     width: 70px;
     height: 70px;
     background-color: black;
@@ -40,7 +52,51 @@ button {
      align-items: center;
    }
    
+   .operator, #equals {
+     color: black;
+     background-color: orange;
+   }
+
+   .clearordelete {
+     color: red;
+     background-color: black;
+   }
+
    .toprow, .firstrow, .secondrow, .thirdrow, .fourthrow {
      display: flex;
      gap: 0px;
+   }
+
+   .header {
+    background-color: black;
+    color: orange;
+    font-size: 14px;
+    padding: 24px;
+    border: none;
+    text-align: center;
+   }
+
+   .footer {
+    background-color: black;
+    color: orange;
+    font-size: 14px;
+    padding: 24px;
+    border: none;
+    text-align: center;
+    margin-top: auto;
+   }
+
+   .firstsecondcontainer {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 20px;
+     margin-top: 15px;
+   }
+
+   #first, #second {
+     width: 150px;
+     height: 30px;
+     background-color: orange;
+     color: black;
    }
